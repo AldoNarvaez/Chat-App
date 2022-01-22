@@ -1,26 +1,35 @@
 import React,{useRef} from 'react';
+import Button from '@material-ui/core/Button';
+import Box from "@mui/material/Box"
+import { TextField } from '@material-ui/core';
+const {request} = require('graphql-request')
 
 const ContactModel = ({OnClose}) => {
 
-    const idRef=useRef()
+    const emailRef=useRef()
     const nameRef=useRef()
-    
+
+
     function handleSubmit(e) {
         e.preventDefault()
-        
+        const email=emailRef.current.value
+        const myEmail=sessionStorage.getItem("email")
+        console.log("¿entramos?")
+        const mut = `mutation{addContact(emailFrom:"${email}",emailTo:"${myEmail}"){username}}`
+        request("/graphql/",mut)
         //createContact(idRef.current.value,nameRef.current.value)
     }
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>E-mail</label>
-                <input type="text"  ref={idRef} required></input>
-                <label>Name</label>
-                <input type="text"  ref={nameRef} required></input>
-            </form>
-            <button onClick={OnClose} type="submit">Create</button>
-            <button onClick={OnClose} >Close</button>
+            <h2>Add new contact</h2>
+            <Box component="form" onSubmit={handleSubmit}>
+                <TextField label="E-mail" type="text"  inputRef={emailRef} required></TextField>
+                <TextField label="Name" type="text"  inputRef={nameRef} required></TextField>
+                <Button type="submit" >Create</Button>
+                <Button onClick={OnClose} >Close</Button>
+            </Box>
+            
         </div>
     );
 }

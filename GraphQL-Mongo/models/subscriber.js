@@ -8,6 +8,10 @@ const subscriberSchema = new mongoose.Schema({
     email:{
         type:String,
         required:true
+    },
+    contacts:{
+        type: Array,
+        required: false
     }
 })
 

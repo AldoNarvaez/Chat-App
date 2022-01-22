@@ -1,6 +1,8 @@
+import Button from '@material-ui/core/Button';
+import Box from "@mui/material/Box"
+import { TextField } from '@material-ui/core';
 import React,{useRef} from 'react';
 const {request} = require("graphql-request")
-
 
 const SinginModal = ({OnClose}) => {
 
@@ -30,17 +32,14 @@ const SinginModal = ({OnClose}) => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>Enter an E-mail</label>
-                <input type="text"  ref={emailRef} required></input>
-                <label>Enter a Username</label>
-                <input type="text"  ref={nameRef} required></input>
-                <label>Create a password</label>
-                <input type="text"  ref={passRef} required></input>
-                <button type="submit">Create</button>
-            </form>
+            <Box component="form" onSubmit={handleSubmit}>
+                <TextField label="Enter an Email" type="text"  inputRef={emailRef} required/>
+                <TextField label="Enter Username" type="text"  inputRef={nameRef} required/>
+                <TextField label="Create a password" type="text"  inputRef={passRef} required/>
+                <Button type="submit">Create</Button>
+            </Box>
 
-            <button onClick={OnClose} >Close</button>
+            <Button onClick={OnClose} >Close</Button>
         </div>
     );
 }

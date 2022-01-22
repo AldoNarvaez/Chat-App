@@ -1,6 +1,10 @@
 import React, {useRef, useState} from 'react';
 import Modal from './Modals/Modal';
 import SinginModal from './Modals/SinginModal';
+import Button from '@material-ui/core/Button';
+import Box from "@mui/material/Box"
+import { TextField } from '@material-ui/core';
+
 
 const {request} = require('graphql-request')
 //import {v4 as uuidv4} from "uuid" //FOR CREATING UNINQUES ID'S
@@ -13,6 +17,7 @@ const Login = ({IdSubmit}) => {
     function handleSubmit(e){
         const email=idEmail.current.value
         const passSubmited=idPassword.current.value;
+
         e.preventDefault();
         const querie = `query{user(email:"${email}"){username email}}`
         const querie2 = `query{password(email:"${email}"){password email}}`
@@ -26,6 +31,9 @@ const Login = ({IdSubmit}) => {
 
             if(data.password.password===passSubmited){
                 IdSubmit(data1.user.username)
+                sessionStorage.setItem("user",data1.user.username);
+                sessionStorage.setItem("email",data1.user.email);
+                console.log(sessionStorage.getItem("email"))
                 console.log("submitted!!")
             }else{alert("Wrong password")
                 return IdSubmit(null)}
@@ -37,25 +45,25 @@ const Login = ({IdSubmit}) => {
     // function createNewId(){
     //   //  IdSubmit(uuidv4())
     // }
-    return (
+    return (<>
+            
                 <div>
-            <form onSubmit={handleSubmit}>
-                <label>Enter your user e-mail</label>
-                <input type="text" ref={idEmail} required /><br/>
-                <label>Password</label>
-                <input type="text" ref={idPassword} required/><br/>
-                <button type="submit" >Login</button><br/>
-            </form>
+            <Box component="form" onSubmit={handleSubmit}>
+                <TextField label="User e-mail" type="text" inputRef={idEmail} required /><br/>
+                <TextField label="Password" type="text" inputRef={idPassword} required/><br/>
+                <Button type="submit" >Login</Button><br/>
+            </Box>
 
-                <button onClick={()=> setIsOpen(true)} style={{width:"250px"}}>
+                <Button onClick={()=> setIsOpen(true)} style={{width:"250px"}}>
                     Sign in
-                </button>
+                </Button>
                 <Modal open={isOpen} >
                     <SinginModal OnClose={()=> setIsOpen(false)}/>
                 </Modal>
             
             
         </div>
+        </>
         
     );
 }
