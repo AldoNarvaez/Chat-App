@@ -30,6 +30,7 @@ const userType=new GraphQLObjectType({
     name: "user",
     description: "This represents a user",
     fields:()=>({
+        _id:{type: GraphQLNonNull(GraphQLString)},
         username:{type: GraphQLNonNull(GraphQLString)},
         email:{type: GraphQLNonNull(GraphQLString)},
         contacts: {type: GraphQLList(GraphQLString)}
@@ -82,6 +83,7 @@ const RootQueryType = new GraphQLObjectType({
 
                  const user = await new subscriber({username: args.username, email:args.email})
                  user.save()
+                 console.log(user)
                  return user
              }
          },
@@ -93,6 +95,7 @@ const RootQueryType = new GraphQLObjectType({
             },
             resolve: async(parent, args)=> {
                 const user = await subscriber.findOneAndDelete({email: args.email})
+                console.log(typeof user)
                 return user[0]
             }
          },
@@ -106,7 +109,12 @@ const RootQueryType = new GraphQLObjectType({
             resolve: async(parent, args)=>{
                 const userF=await subscriber.findOne({email: args.emailFrom})
                 const userT=await subscriber.findOne({email: args.emailTo})
-                userT.contacts.push(userF.email)
+                const {_id, username, email}=userF
+                const NewObj={_id:_id, username:username, email:email}
+                const ObjStr1=JSON.stringify(userF)
+                const ObjStr2=JSON.stringify(userT)
+                const NewObjStr=JSON.stringify(NewObj)
+                userT.contacts.push(NewObjStr)
                 userT.save()
             }
 

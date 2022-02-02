@@ -33,8 +33,7 @@ const Login = ({IdSubmit}) => {
                 IdSubmit(data1.user.username)
                 sessionStorage.setItem("user",data1.user.username);
                 sessionStorage.setItem("email",data1.user.email);
-                console.log(sessionStorage.getItem("email"))
-                console.log("submitted!!")
+               // console.log("submitted!!")
             }else{alert("Wrong password")
                 return IdSubmit(null)}
                 })

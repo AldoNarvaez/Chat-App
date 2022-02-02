@@ -2,12 +2,14 @@ import React, {useState} from "react";
 import Login from "./Login"
 import Sidebar from "./sidebar";
 import "./App.css"
-import Message from "./Message";
-
+import Messages from "./Messages";
+  
 function App() {
+  
  //sessionStorage.clear()
   const [id, setId]=useState(sessionStorage.getItem("user"))
- 
+//   const [currentChat, setcurrentChat] = useState(true);
+//  const [messages, setMessages] = useState([]);
   if (id){
 
     return (
@@ -21,17 +23,10 @@ function App() {
                 <Sidebar id={id}/>
               </div>
               <div className="chatBox" style={{flex:5.5}}>
-                <div className="chatBoxTop">
-                    <Message/>
-                    <Message own={true}/>
-                    <Message/>
-                    <Message/>
-                </div>
-                <div className="chatBoxBotton">
-                  <textarea className="chatMessageInput" placeholder="Write something..." ></textarea>
-                  <button className="chatSubmitButton">Send</button>
-                </div>
-              </div>
+                <Messages/>
+              </div> 
+
+             
           </div>
             </>)}
   return(

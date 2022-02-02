@@ -23,6 +23,18 @@ module.exports = function (app) {
                 "^/graphql2": "/"
             },
         }),
+    );
+    
+    app.use(
+        "/mysocket",
+        createProxyMiddleware({
+            target: "http://localhost:5000",
+            // changeOrigin: true,
+            ws:true,
+            // ,pathRewrite: {
+            //     "^/mysocket": "/"
+            // }
+        })
     )
     
 }

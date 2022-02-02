@@ -11,7 +11,7 @@ import Box from '@mui/material/Box';
 
 const Sidebar = () => {
 
-  const [toggleState, setToggleState] = useState(1);
+  const [toggleState, setToggleState] = useState(2);
   const [isOpen, setIsOpen] = useState(false);
   // const [arr,setArr]=useState()
 
@@ -57,7 +57,8 @@ const Sidebar = () => {
             <Box
             style={toggleState===2 ? {display: "inline"}: {display:"none"}}>
                 <h2 style={{borderBottom:"1px solid"}}> Contacts</h2>
-                  {/* <Contacts/> */}
+                   
+                   <Contacts/>
                   
             </Box>
       </Box>

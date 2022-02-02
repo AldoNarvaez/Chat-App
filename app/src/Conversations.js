@@ -14,7 +14,6 @@ const Conversations = () => {
             setArr(data.user.contacts)
       })
     },[]) 
-    console.log(arr)
     return (
         <div>
             Conversations
