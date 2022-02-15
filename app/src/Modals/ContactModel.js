@@ -1,44 +1,91 @@
-import React,{useRef} from 'react';
+import React,{useRef, useEffect} from 'react';
 import Button from '@material-ui/core/Button';
 import Box from "@mui/material/Box"
 import { TextField } from '@material-ui/core';
+
 const {request} = require('graphql-request')
 
-const ContactModel = ({OnClose}) => {
 
+const ContactModel = ({socket ,OnClose}) => {
+
+    // useEffect(() => {
+    //     socket.on("added",(msg)=>{
+    //         console.log(msg)
+    //     })
+    //   }, []);
     const emailRef=useRef()
+
+      
 
     function handleSubmit(e) {
         e.preventDefault()
+
         const email=emailRef.current.value
         const myEmail=sessionStorage.getItem("email")
-        const querie = `query{user(email:"${myEmail}"){contacts}}`;
-        const querie2 = `query{user(email:"${email}"){ _id username email}}`;
+        const myUsername=sessionStorage.getItem("user")
+        const queryUser1 = `query{user(email:"${myEmail}"){contacts}}`;
+        const queryUser2 = `query{user(email:"${email}"){ _id username email}}`;
+        const queryAuth = `query{user(email:"${myEmail}"){username}}`;
 
-          request("/graphql/",querie).then((data1)=>{
+        request("/graphql/", queryAuth).then((data)=>{
+            if(data){
+                request("/graphql/",queryUser1).then((data1)=>{
 
-              request("/graphql/",querie2).then((data2)=>{
-                console.log(data1.user.contacts)
-                const ar=data1.user.contacts
-                if(data2.user==null){
-                    return alert("Unexisting user")
-                }
-                console.log(data2)
-                const {_id, username,email}=data2.user
-                const objStr=JSON.stringify({_id,username,email})
-                console.log(objStr)
-                 if(ar.indexOf(objStr)===-1){
-                     const mut = `mutation{addContact(emailFrom:"${email}",emailTo:"${myEmail}"){username}}`
-                     window.location.reload()
-                   return  request("/graphql/",mut)
-                 }
-                return alert("User already saved")
+                    request("/graphql/",queryUser2).then((data2)=>{
+                      const ar=data1.user.contacts
+                      if(data2.user==null){
+                          return alert("Unexisting user")
+                      }
+                      const {_id, username,email}=data2.user
+                      const objStr=JSON.stringify({_id,username,email})
+                      console.log(objStr)
+                       if(ar.indexOf(objStr)===-1){
+                          
+                          socket.emit("addContact",myUsername)
+                          console.log(`The user ${myUsername} wants to add ${username}`)
+                           //return
+                          //  const mut = `mutation{addContact(emailFrom:"${email}",emailTo:"${myEmail}"){username}}`
+                          //  window.location.reload()
+                         //return  request("/graphql/",mut)
+                       }
+                     //return alert("User already saved")
+          
+                  })
+      
+                })
+               
+
+            }
+            
+
+        })
+
+        //   request("/graphql/",queryUser1).then((data1)=>{
+
+        //       request("/graphql/",queryUser2).then((data2)=>{
+        //         const ar=data1.user.contacts
+        //         if(data2.user==null){
+        //             return alert("Unexisting user")
+        //         }
+        //         const {_id, username,email}=data2.user
+        //         const objStr=JSON.stringify({_id,username,email})
+        //         console.log(objStr)
+        //          if(ar.indexOf(objStr)===-1){
+                    
+        //             socket.emit("addContact",[myUsername, username])
+        //             return console.log(`El usuario ${myUsername} con socketId de ${socket.id} quiere agregar a ${username}`)
+                     
+        //             //  const mut = `mutation{addContact(emailFrom:"${email}",emailTo:"${myEmail}"){username}}`
+        //             //  window.location.reload()
+        //            //return  request("/graphql/",mut)
+        //          }
+        //         return alert("User already saved")
     
-            })
+        //     })
 
-          })
+        //   })
          
-
+    
         
         
     }

@@ -16,9 +16,7 @@ const SinginModal = ({OnClose}) => {
         const newEmail=emailRef.current.value;
         const newPassword=passRef.current.value;
         
-        const mut = `mutation{addUser(username:"${newUser}",email:"${newEmail}"){username}}`
-        const mut2 = `mutation{createPassword(password:"${newPassword}",email:"${newEmail}"){email}}`
-        request("/graphql2/",mut2)
+        const mut = `mutation{addUser(username:"${newUser}",email:"${newEmail}", password:"${newPassword}"){username}}`
        request("/graphql/",mut).then((data)=>{
            if(data.addUser==null){return alert("email already in use")}
             else{

@@ -1,0 +1,47 @@
+.navbar{
+    height: 50px;
+    background-color: lightseagreen;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+}
+
+
+h1{
+    font-weight: bold;
+    font-size: 20px;
+}
+.icons{
+    display: flex;
+    align-items: center;
+}
+
+.icon{
+    width: 15px;
+    height: 20px;
+    cursor: pointer;
+    position: relative;
+
+}
+
+.notification{
+    width: 20px;
+    height: 30px;
+}
+
+.counter{
+    width: 5px;
+    height: 5px;
+    background-color: red;
+    border-radius: 50%;
+    padding: 6px;
+    font-size: 15px;
+    display: flex;
+    align-items:flex-end;
+    justify-content: center;
+    position: absolute;
+    top: -10px;
+    right: -70px;
+
+}
