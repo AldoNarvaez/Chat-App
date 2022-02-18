@@ -41,10 +41,9 @@ io.on("connection",(socket)=>{           //Función que corre cuando el evento "
     })
 
 
-     socket.on("addContact",(myUsername)=>{
+     socket.on("addContact",({user1,user2, myEmail,email})=>{
        console.log(`adding...`)
-       const text=`I ${myUsername} want to add you`
-       io.emit("added",text)
+       io.emit("added",{user1,user2,myEmail,email})
      })
 
     // socket.on("disconnect",()=>{

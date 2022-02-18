@@ -116,7 +116,7 @@ const RootQueryType = new GraphQLObjectType({
          },
          deleteUser:{
             type:userType,
-            description: "Add a new user",
+            description: "delete a new user",
             args:{
                 email:{type: GraphQLNonNull(GraphQLString)}
             },
@@ -139,9 +139,30 @@ const RootQueryType = new GraphQLObjectType({
                 const NewObj={_id:_id, username:username, email:email}
                 const ObjStr1=JSON.stringify(userF)
                 const ObjStr2=JSON.stringify(userT)
+                if(ObjStr1!==ObjStr2){
                 const NewObjStr=JSON.stringify(NewObj)
                 userT.contacts.push(NewObjStr)
-                userT.save()
+                return userT.save()}
+            }
+
+         },
+         deleteContact:{
+            type: userType,
+            description:"Add a new contact",
+            args:{
+                myEmail:{type:GraphQLNonNull(GraphQLString)}
+                ,email:{type:GraphQLNonNull(GraphQLString)}
+            },
+            resolve: async(parent, args)=>{
+                const myUser=await subscriber.findOne({email: args.myEmail})
+                const user=await subscriber.findOne({email: args.email})
+                const {_id, username, email}=user
+                const newObj={_id:_id, username:username, email:email}
+                const str=JSON.stringify(newObj)
+                const arrContacts=myUser.contacts
+                const updateContacts=arrContacts.filter(s=>s!==str)
+                myUser.contacts=updateContacts
+                return myUser.save()
             }
 
          },
