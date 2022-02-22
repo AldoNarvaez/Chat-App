@@ -1,8 +1,15 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import Button from '@material-ui/core/Button';
+import Modal from "./Modal.js"
+import NewConversationModal from './NewConversationModal.js';
+import AddContactModal from './AddContactModal.js';
+
 const {request} = require('graphql-request')
 
+
 const ContactSettingsModal =({OnClose,selected}) => {
-    
+    const [isOpen, setIsOpen] = useState(false);
+
 
      function deleteContact() {
         const myEmail=sessionStorage.getItem("email");
@@ -17,9 +24,12 @@ const ContactSettingsModal =({OnClose,selected}) => {
 
     return (
         <div>
-            {`user email is ${selected.email}`}
-        <button onClick={OnClose} >New Conversation</button>
-        <button onClick={()=>{OnClose(); deleteContact(); }} >Delete Contact</button>
+        <Button onClick={()=> {setIsOpen(true)}} >New Conversation</Button>
+        <Button onClick={()=>{OnClose(); deleteContact(); }} >Delete Contact</Button>
+        <Button onClick={()=>{OnClose(); }} >Cancel/Continue</Button>
+        <Modal open={isOpen}>
+            <NewConversationModal onClose={()=>{setIsOpen(false)}} />
+        </Modal>
         </div>
     );
 }

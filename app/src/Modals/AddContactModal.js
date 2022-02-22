@@ -1,4 +1,7 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
+import Box from "@mui/material/Box"
+
 const {request} = require('graphql-request')
 
 
@@ -21,11 +24,11 @@ const AddContactModal = ({OnClose, user1,user2,myEmail, email}) => {
     return (
         <div>
     
-    <form onSubmit={handleSubmit}>
-         <span>{user1+" wants to add you, "+ user2}</span>
-        <button onClick={()=>{OnClose(); window.location.reload()}} >Accept</button>
-        <button onClick={()=>{window.location.reload()}} type="submit" >Decline</button>
-    </form>
+    <Box component="form" onSubmit={handleSubmit}>
+         <div>{user1+" wants to add you, "+ user2}</div>
+        <Button onClick={()=>{OnClose(); window.location.reload()}} >Accept</Button>
+        <Button onClick={()=>{window.location.reload()}} type="submit" >Decline</Button>
+    </Box>
         </div>
     );
 }
