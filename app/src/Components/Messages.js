@@ -26,10 +26,13 @@ const Messages = ({socket}) => {
 
      useEffect(() => {
       socket.on("message",(message)=>{
-        ar.push(message)
-        console.log(ar)
-        console.log(message)
-        setMessages(ar)
+        console.log("test")
+        //setMessages([...messages, message])
+         ar.push(message)
+         console.log(ar)
+        // console.log(messages)
+         setMessages(ar)
+         console.log(messages)
 
       })
     }, []);
@@ -45,13 +48,16 @@ const Messages = ({socket}) => {
     }
     function handler(e) {
         e.preventDefault()
-        // setMessages([...messages,msg])
-        // setMsg("")
-        request("/graphql/", queryAuth).then((data)=>{
-          console.log(data.user.username)
-          socket.emit("sendMessage", msg)
-
-        })
+        setMessages([...messages,msg])
+        setMsg("")
+        //request("/graphql/", queryAuth).then((data)=>{
+         socket.emit("sendMessage", msg)
+        //  ar.push(msg)
+        //  console.log(ar)
+        //  console.log(messages)
+        //  setMessages(ar)
+        //  console.log(messages)
+        //})
       //console.log("message submitted")
     }
 

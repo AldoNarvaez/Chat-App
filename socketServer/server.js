@@ -36,6 +36,7 @@ io.on("connection",(socket)=>{           //Función que corre cuando el evento "
      
 
     socket.on("sendMessage",(message)=>{
+      console.log(message)
       io.emit("message", message)
       
     })
