@@ -81,7 +81,7 @@ const RootMutationtype=new GraphQLObjectType({
                 roomName:{type: new GraphQLNonNull(GraphQLString)}
                  },
             resolve: async(parent, args) =>{
-                if (await chatSchema.exists({email:args.email})){
+                if (await chatSchema.exists({roomName:args.roomName})){
                    return;
                }
                
@@ -104,7 +104,7 @@ const RootMutationtype=new GraphQLObjectType({
             resolve: async(parent,args)=>{
                 const chat=await chatSchema.findOne({roomName:args.roomName})
                 const {participantEmail,participantID,participantUsername}=args
-                 const newObj={participantEmail:participantEmail,participantID:participantID, participantUsername:participantUsername}
+                 const newObj={email:participantEmail,_id:participantID, username:participantUsername}
                 const objStr=JSON.stringify(newObj)
                 chat.participants.push(objStr)
                 chat.save();

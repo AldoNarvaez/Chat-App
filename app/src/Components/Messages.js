@@ -15,6 +15,7 @@ const Messages = ({socket}) => {
 
     const [msg, setMsg] = useState("");
     const [messages, setMessages] = useState([]);
+    let ar=[]
     //  socket.on("message",(message)=>{
     //    console.log(message)
     //    setMessages([...messages,message])
@@ -23,10 +24,12 @@ const Messages = ({socket}) => {
     const myEmail=sessionStorage.getItem("email")
     const queryAuth = `query{user(email:"${myEmail}"){username}}`;
 
-    useEffect(() => {
+     useEffect(() => {
       socket.on("message",(message)=>{
+        ar.push(message)
+        console.log(ar)
         console.log(message)
-        setMessages([...messages,message])
+        setMessages(ar)
 
       })
     }, []);
@@ -59,9 +62,11 @@ const Messages = ({socket}) => {
 
         <div className="chatBoxTop">
             <div className="messageTop">
+              <ul>
             {messages.map(c =>{
-          return(<p key={Math.random()} className="messageText">{c}</p>)
+          return(<li key={Math.random()} className="messageText">{c}</li>)
          })}
+         </ul>
              </div>
         </div>
         <FormControl component="form" onSubmit={handler} sx={{m:1, width: '100%' }} >

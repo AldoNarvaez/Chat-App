@@ -28,11 +28,11 @@ const Login = ({IdSubmit}) => {
             }else if (data1.user.password===passSubmited){
                 IdSubmit(data1.user.username)
                 request("/graphql/",mut)
-                const querie3 = `query{user(email:"${email}"){username email token}}`
+                const querie3 = `query{user(email:"${email}"){username email _id}}`
                 request("/graphql/",querie3).then((data3)=>{
                     sessionStorage.setItem("user",data3.user.username);
                     sessionStorage.setItem("email",data3.user.email);
-                    sessionStorage.setItem("token",data3.user.token)
+                    sessionStorage.setItem("_id",data3.user._id)
                 })
                
                 

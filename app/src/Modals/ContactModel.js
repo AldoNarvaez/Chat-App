@@ -34,7 +34,9 @@ const ContactModel = ({socket ,OnClose}) => {
 
                     request("/graphql/",queryUser2).then((data2)=>{
                       const ar=data1.user.contacts
+                      console.log(data2.data)
                       if(data2.user==null){
+
                           return alert("Unexisting user")
                       }
                       const {_id, username,email}=data2.user

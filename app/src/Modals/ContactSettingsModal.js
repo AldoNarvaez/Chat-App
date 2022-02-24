@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Modal from "./Modal.js"
 import NewConversationModal from './NewConversationModal.js';
-import AddContactModal from './AddContactModal.js';
 
 const {request} = require('graphql-request')
 
@@ -26,9 +25,9 @@ const ContactSettingsModal =({OnClose,selected}) => {
         <div>
         <Button onClick={()=> {setIsOpen(true)}} >New Conversation</Button>
         <Button onClick={()=>{OnClose(); deleteContact(); }} >Delete Contact</Button>
-        <Button onClick={()=>{OnClose(); }} >Cancel/Continue</Button>
+        <Button onClick={()=>{OnClose(); window.location.reload()}} >Cancel/Continue</Button>
         <Modal open={isOpen}>
-            <NewConversationModal onClose={()=>{setIsOpen(false)}} />
+            <NewConversationModal onClose={()=>{setIsOpen(false)}} selected={selected}/>
         </Modal>
         </div>
     );
