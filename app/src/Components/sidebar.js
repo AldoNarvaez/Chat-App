@@ -51,7 +51,7 @@ const Sidebar = ({socket}) => {
             <Box
             style={toggleState===1 ? {display: "inline"}: {display:"none"}}>
                 <h2 style={{borderBottom:"1px solid"}}>Conversations</h2>
-                    <Conversations/>
+                    <Conversations socket={socket}/>
             </Box>
 
             <Box
@@ -67,7 +67,7 @@ const Sidebar = ({socket}) => {
             New {toggleState===1 ? "Conversations": "Contacts"}
           </Button>
           <Modal open={isOpen} >
-              {toggleState===1 ? <ConversationModal OnClose={()=> setIsOpen(false)}/> : <ContactModel OnClose={()=> setIsOpen(false)} socket={socket}/>}
+              {toggleState===1 ? <ConversationModal OnClose={()=> setIsOpen(false)} /> : <ContactModel OnClose={()=> setIsOpen(false)} socket={socket}/>}
           </Modal>
       </div>
 

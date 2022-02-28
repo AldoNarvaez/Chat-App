@@ -15,32 +15,34 @@ const Messages = ({socket}) => {
 
     const [msg, setMsg] = useState("");
     const [messages, setMessages] = useState([]);
+    const [conversationID, setConversationID] = useState("");
     let ar=[]
     //  socket.on("message",(message)=>{
     //    console.log(message)
     //    setMessages([...messages,message])
 
     //  })
-    const myEmail=sessionStorage.getItem("email")
-    const queryAuth = `query{user(email:"${myEmail}"){username}}`;
+    //const myEmail=sessionStorage.getItem("email")
+    //const queryAuth = `query{user(email:"${myEmail}"){username}}`;
+    const querie2=`query{chats{roomName participants _id}}`
+  request("/graphql2",querie2).then((data)=>{
+
+    const datum= data.chats
+    console.log(datum[0]._id)
+    setConversationID(datum[0]._id)
+  })
+
+
 
      useEffect(() => {
       socket.on("message",(message)=>{
-        console.log("test")
-        //setMessages([...messages, message])
          ar.push(message)
-         console.log(ar)
-        // console.log(messages)
          setMessages(ar)
-         console.log(messages)
-
+         setMsg(message)
       })
     }, []);
    
-   // const idText=useRef()
-  //  socket.on("message",(message)=>{
-  //   setMessages(message)
-  // })
+   
     function onChangeHandler(e){
         e.preventDefault()
        const message=e.target.value
@@ -50,15 +52,9 @@ const Messages = ({socket}) => {
         e.preventDefault()
         setMessages([...messages,msg])
         setMsg("")
-        //request("/graphql/", queryAuth).then((data)=>{
-         socket.emit("sendMessage", msg)
-        //  ar.push(msg)
-        //  console.log(ar)
-        //  console.log(messages)
-        //  setMessages(ar)
-        //  console.log(messages)
-        //})
-      //console.log("message submitted")
+        socket.emit("joinRoom", conversationID)
+        socket.emit("sendMessage", msg, conversationID)
+        
     }
 
 
