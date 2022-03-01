@@ -35,6 +35,11 @@ io.on("connection",(socket)=>{           //Función que corre cuando el evento "
     console.log("New webSocket connection")//An it wil run for every user (or connection)
      
 
+    socket.on("joinRoom", (room)=>{
+      socket.join(room)
+    })
+
+
     socket.on("sendMessage",(message,room)=>{
       console.log(message)
      // io.emit("message", message)
@@ -42,13 +47,6 @@ io.on("connection",(socket)=>{           //Función que corre cuando el evento "
       
     })
 
-    socket.on("joinRoom", (room)=>{
-      socket.join(room)
-    })
-
-    socket.on("newRoom",(id)=>{
-      socket.join( id ) 
-      })
 
 
      socket.on("addContact",({user1,user2, myEmail,email})=>{

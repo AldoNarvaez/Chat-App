@@ -15,23 +15,35 @@ const Messages = ({socket}) => {
 
     const [msg, setMsg] = useState("");
     const [messages, setMessages] = useState([]);
-    const [conversationID, setConversationID] = useState("");
+    const [conversationID, setConversationID] = useState("123");
     let ar=[]
     //  socket.on("message",(message)=>{
     //    console.log(message)
     //    setMessages([...messages,message])
 
     //  })
-    //const myEmail=sessionStorage.getItem("email")
-    //const queryAuth = `query{user(email:"${myEmail}"){username}}`;
-    const querie2=`query{chats{roomName participants _id}}`
-  request("/graphql2",querie2).then((data)=>{
-
-    const datum= data.chats
-    console.log(datum[0]._id)
+    ///const email1="example2"
+    //const email2="otro"
+    const myEmail=sessionStorage.getItem("email")
+  //  const queryAuth = `query{user(email:"${myEmail}"){username}}`;
+      const querie2=`query{chats{roomName participants _id}}`
+    request("/graphql2",querie2).then((data)=>{
+  // //if()
+      const datum= data.chats
     setConversationID(datum[0]._id)
-  })
+      let part=[]
+      datum[0].participants.map((c)=>{
+        const r=JSON.parse(c)
+        return part.push(r)
+      })
+      console.log(part)
+      for (let i = 0;  i< part.length; i++) {
+            if(part[i].email===myEmail){
+              socket.emit("joinRoom", conversationID)
+            }
+      }
 
+  })
 
 
      useEffect(() => {
@@ -52,7 +64,6 @@ const Messages = ({socket}) => {
         e.preventDefault()
         setMessages([...messages,msg])
         setMsg("")
-        socket.emit("joinRoom", conversationID)
         socket.emit("sendMessage", msg, conversationID)
         
     }
